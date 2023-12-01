@@ -72,7 +72,7 @@ function getLastNumber(line) {
 let tot = 0
 
 /**
- * JS boilerplate to scan a file lines
+ * JS boilerplate to scan a file's lines
  */
 const inputStream = fs.createReadStream('input.txt');
 let lineReader = readline.createInterface({

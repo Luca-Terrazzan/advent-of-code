@@ -1,7 +1,5 @@
-const fs = require("fs");
-const readline = require("readline");
-
-const input_path = "input.txt";
+const fs = require('fs');
+const readline = require('readline');
 
 function getLineNumber(line) {
   let tot = getFirstNumber(line) + getLastNumber(line)
@@ -24,15 +22,16 @@ function getLastNumber(line) {
     }
   }
 }
+
 let tot = 0
-const inputStream = fs.createReadStream(input_path);
+const inputStream = fs.createReadStream('input.txt');
 let lineReader = readline.createInterface({
   input: inputStream,
   terminal: false,
 });
-lineReader.on("line", function (line) {
+lineReader.on('line', function (line) {
   tot += +getLineNumber(line)
 });
-lineReader.on("close", () => {
-  console.log(tot)
+lineReader.on('close', () => {
+  console.log('Total is:', tot)
 })

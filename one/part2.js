@@ -11,7 +11,6 @@ const digitsMap = {
   "7": 7,
   "8": 8,
   "9": 9,
-  // "0": 0,
   "one": 1,
   "two": 2,
   "three": 3,
@@ -21,7 +20,6 @@ const digitsMap = {
   "seven": 7,
   "eight": 8,
   "nine": 9,
-  // "zero": 0,
 }
 
 function getLineNumber(line) {
@@ -32,7 +30,7 @@ function getLineNumber(line) {
 
 function getFirstNumber(line) {
   let res = undefined
-  let minPosition = 99999
+  let minPosition = Number.MAX_SAFE_INTEGER
   for (const digit of Object.keys(digitsMap)) {
     const digitPosition = line.indexOf(digit)
     if (digitPosition >= 0 && digitPosition < minPosition) {
@@ -46,7 +44,7 @@ function getFirstNumber(line) {
 
 function getLastNumber(line) {
   let res = undefined
-  let maxPosition = -99999
+  let maxPosition = Number.MIN_SAFE_INTEGER
   for (const digit of Object.keys(digitsMap)) {
     const digitPosition = line.lastIndexOf(digit)
     if (digitPosition >= 0 && digitPosition > maxPosition) {
@@ -59,18 +57,14 @@ function getLastNumber(line) {
 }
 
 let tot = 0
-const input_path = "input.txt";
-const inputStream = fs.createReadStream(input_path);
+const inputStream = fs.createReadStream('input.txt');
 let lineReader = readline.createInterface({
   input: inputStream,
   terminal: false,
 });
-lineReader.on("line", function (line) {
-  console.log(getLineNumber(line))
+lineReader.on('line', function (line) {
   tot += +getLineNumber(line)
 });
-lineReader.on("close", () => {
-  console.log(tot)
+lineReader.on('close', () => {
+  console.log('Total is:', tot)
 })
-
-// console.log(getLineNumber('kpzfgpxdonesix2fourninefourfour'))

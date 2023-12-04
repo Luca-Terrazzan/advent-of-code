@@ -3,6 +3,7 @@ import { parseInputFile } from '../utils.js';
 const MAX_R = 12
 const MAX_G = 13
 const MAX_B = 14
+
 let totalPoints = 0
 
 const mapCubeNameToLimit = {
@@ -21,10 +22,12 @@ function getPointsFromGame(gameTextLine) {
   const cubeSets = gamesText.split(';')
   for (const cubeSet of cubeSets) {
     if (!isCubesetValid(cubeSet)) {
+      console.log('!Game ', gameId, ' is invalid')
       return 0
     }
   }
 
+  console.log('Game ', gameId, ' is valid')
   return +gameId
 }
 

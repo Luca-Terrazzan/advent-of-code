@@ -1,15 +1,11 @@
 import { parseInputFile } from '../utils.js';
 
-const MAX_R = 12
-const MAX_G = 13
-const MAX_B = 14
-
 let totalPoints = 0
 
 const mapCubeNameToLimit = {
-  'red': MAX_R,
-  'green': MAX_G,
-  'blue': MAX_B
+  'red': 12,
+  'green': 13,
+  'blue': 14
 }
 
 function parseGame(gameTextLine) {
@@ -17,9 +13,9 @@ function parseGame(gameTextLine) {
 }
 
 function getPointsFromGame(gameTextLine) {
-  const [gameIdText, gamesText] = gameTextLine.split(':')
+  const [gameIdText, gamesText] = gameTextLine.split(': ')
   const [_, gameId] = gameIdText.split(' ')
-  const cubeSets = gamesText.split(';')
+  const cubeSets = gamesText.split('; ')
   for (const cubeSet of cubeSets) {
     if (!isCubesetValid(cubeSet)) {
       console.log('!Game ', gameId, ' is invalid')
@@ -43,4 +39,4 @@ function isCubesetValid(cubeSetString) {
 
 // parseInputFile('./input_small.txt', parseGame, line => console.log(totalPoints))
 // parseInputFile('./sample_input.txt', parseGame, line => console.log(totalPoints))
-parseInputFile('./input.txt', parseGame, line => console.log(totalPoints))
+parseInputFile('./2023/2/input.txt', parseGame, line => console.log(totalPoints))

@@ -5,12 +5,7 @@ let multipliers = [1]
 
 function parseGameLine(line) {
   const currentMultiplier = multipliers[0]
-  if (currentMultiplier === 0) {
-    multipliers.shift()
-    return
-  }
-  totalPoints++
-  multipliers[0] = currentMultiplier - 1
+  totalPoints += currentMultiplier
 
   const amountOfWins = getAmountOfWinsPerLine(line)
   if (amountOfWins === 0) {
@@ -18,10 +13,10 @@ function parseGameLine(line) {
   }
 
   for (let i = 0; i < amountOfWins; i++) {
-    multipliers[i+1] = (multipliers[i+1] || 1) + 1
+    multipliers[i+1] = (multipliers[i+1] || 1) + currentMultiplier
   }
 
-  parseGameLine(line)
+  multipliers.shift()
 }
 
 function getAmountOfWinsPerLine(line) {

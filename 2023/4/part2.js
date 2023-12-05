@@ -1,8 +1,30 @@
 import { parseInputFile } from '../utils.js';
 
 let totalPoints = 0
+let multipliers = [1]
 
 function parseGameLine(line) {
+  const currentMultiplier = multipliers[0]
+  if (currentMultiplier === 0) {
+    multipliers.shift()
+    return
+  }
+  totalPoints++
+  multipliers[0] = currentMultiplier - 1
+
+  const amountOfWins = getAmountOfWinsPerLine(line)
+  if (amountOfWins === 0) {
+    multipliers[1] = multipliers[1] || 1
+  }
+
+  for (let i = 0; i < amountOfWins; i++) {
+    multipliers[i+1] = (multipliers[i+1] || 1) + 1
+  }
+
+  parseGameLine(line)
+}
+
+function getAmountOfWinsPerLine(line) {
   const [_, cardContent] = line.replaceAll('  ', ' ').split(': ')
   const [winningNumbersString, numbersString] = cardContent.split(' | ')
 
@@ -17,7 +39,7 @@ function parseGameLine(line) {
     }
   }
 
-  totalPoints += amountOfWins > 0 ? Math.pow(2, amountOfWins - 1) : 0
+  return amountOfWins
 }
 
 parseInputFile('./2023/4/input.txt', parseGameLine, line => console.log('Total points: ', totalPoints))

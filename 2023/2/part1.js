@@ -18,12 +18,12 @@ function getPointsFromGame(gameTextLine) {
   const cubeSets = gamesText.split('; ')
   for (const cubeSet of cubeSets) {
     if (!isCubesetValid(cubeSet)) {
-      console.log('!Game ', gameId, ' is invalid')
+      console.debug('!Game ', gameId, ' is invalid')
       return 0
     }
   }
 
-  console.log('Game ', gameId, ' is valid')
+  console.debug('Game ', gameId, ' is valid')
   return +gameId
 }
 
@@ -39,4 +39,4 @@ function isCubesetValid(cubeSetString) {
 
 // parseInputFile('./input_small.txt', parseGame, line => console.log(totalPoints))
 // parseInputFile('./sample_input.txt', parseGame, line => console.log(totalPoints))
-parseInputFile('./2023/2/input.txt', parseGame, line => console.log(totalPoints))
+parseInputFile('./2023/2/input.txt', parseGame, line => console.log('Total points: ', totalPoints))

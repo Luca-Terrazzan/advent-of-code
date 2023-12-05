@@ -1,6 +1,6 @@
 import { isNumber, parseInputFile } from '../utils.js';
 
-const SPACE_CHAR = '.'
+const GEAR_CHAR = '*'
 const GAME_MATRIX = []
 
 function addInputLineToGameMatrix(line) {
@@ -17,11 +17,8 @@ function parseGame() {
     const line = GAME_MATRIX[lineNumber]
     for (let charNumber = 0; charNumber < GAME_MATRIX[0].length; charNumber++) {
       const char = line[charNumber]
-      if (char === SPACE_CHAR) continue
-      if (isNumber(char)) {
-        continue
-      } else {
-        totalPoints += +findNumbersAdjacentToSymbol(lineNumber, charNumber)
+      if (char === GEAR_CHAR) {
+        totalPoints += +findGearRatio(lineNumber, charNumber)
       }
     }
   }
@@ -29,20 +26,22 @@ function parseGame() {
   console.log('Total points: ', totalPoints)
 }
 
-function findNumbersAdjacentToSymbol(symLine, symCol) {
-  let adjacentNumbersSum = 0
+function findGearRatio(symLine, symCol) {
+  let gearRatio = 1
+  let adjacentNumbersAmount = 0
   // Look for the eight spaces around the symbol
   for (let i = Math.max(0, symLine-1); i < Math.min(GAME_MATRIX.length, symLine+2); i++) {
     for (let j = Math.max(0, symCol-1); j < Math.min(GAME_MATRIX[0].length, symCol+2); j++) {
       const char = GAME_MATRIX[i][j]
       if (isNumber(char)) {
+        adjacentNumbersAmount++
         const extractedNumber = extractNumberFromPosition(i, j)
-        adjacentNumbersSum += +extractedNumber
+        gearRatio *= +extractedNumber
       }
     }
   }
 
-  return adjacentNumbersSum
+  return adjacentNumbersAmount === 2 ? gearRatio : 0
 }
 
 function extractNumberFromPosition(numLine, numCol) {

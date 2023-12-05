@@ -10,3 +10,7 @@ export function parseInputFile(path, onLine, onClose) {
   lineReader.on('line', onLine);
   lineReader.on('close', onClose)
 }
+
+export function isNumber(char) {
+  return !isNaN(+char)
+}

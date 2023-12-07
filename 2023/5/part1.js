@@ -2,7 +2,7 @@ import { parseInputFile } from '../utils.js';
 
 let currentSeeds;
 let currentStep = 'seed'
-let stepMap = {}
+let stepMap = []
 
 function parseInitialSeeds(seedsLine) {
   const [_, seedsListAsString] = seedsLine.split(': ')
@@ -36,19 +36,21 @@ function parseGameLine(line) {
 
 function parseMappingLine(line) {
   const [seedEnd, seedStart, step] = line.split` `.map(x => +x)
-  for (let i = 0; i < step; i++) {
-    stepMap[seedStart + i] = seedEnd + i
-  }
+  stepMap.push({seedStart, step, seedEnd})
 }
 
 function updateSeeds() {
   for (let i = 0; i < currentSeeds.length; i++) {
     const seed = currentSeeds[i]
-    currentSeeds[i] = stepMap[seed] || seed
+    for (const mapping of stepMap) {
+      if (seed >= mapping.seedStart && seed <= mapping.seedStart+mapping.step) {
+        currentSeeds[i] = mapping.seedEnd + (seed - mapping.seedStart)
+      }
+    }
   }
 
-  stepMap = {}
+  stepMap = []
 }
 
-parseInputFile('./2023/5/input.txt', parseGameLine, line => console.log('Total points: ', totalPoints))
 // parseInputFile('./2023/5/sample_input.txt', parseGameLine, line => console.log('Lowest final position is', Math.min(...currentSeeds)))
+parseInputFile('./2023/5/input.txt', parseGameLine, line => console.log('Lowest final position is', Math.min(...currentSeeds)))

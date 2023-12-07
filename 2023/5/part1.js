@@ -52,5 +52,11 @@ function updateSeeds() {
   stepMap = []
 }
 
-// parseInputFile('./2023/5/sample_input.txt', parseGameLine, line => console.log('Lowest final position is', Math.min(...currentSeeds)))
-parseInputFile('./2023/5/input.txt', parseGameLine, line => console.log('Lowest final position is', Math.min(...currentSeeds)))
+function printResult() {
+  updateSeeds()
+  const lowestPosition = Math.min(...currentSeeds)
+  console.log('Lowest final position is ', lowestPosition)
+}
+
+// parseInputFile('./2023/5/sample_input.txt', parseGameLine, line => printResult())
+parseInputFile('./2023/5/input.txt', parseGameLine, line => printResult())

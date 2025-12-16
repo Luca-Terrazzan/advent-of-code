@@ -1,35 +1,54 @@
 import { parseInputFile } from '../utils.js';
 
-let totalZeroClicks = 0;
-let currentPosition = 50;
-let clickOccurred = 0;
+let totalClicks = 0;
+
+class Dial {
+  constructor(size, position) {
+    this.size = size;
+    this.position = position;
+  }
+
+  moveLeft() {
+    if (this.position === 0) {
+      this.position = this.size - 1;
+    } else {
+      this.position = this.position - 1;
+    }
+    return this.position === 0;
+  }
+
+  moveRight() {
+    if (this.position === this.size - 1) {
+      this.position = 0;
+    } else {
+      this.position = this.position + 1;
+    }
+    return this.position === 0;
+  }
+}
+
+const dial = new Dial(100, 50);
 
 function parseGame(gameTextLine) {
-  [currentPosition, clickOccurred] = updatePosition(gameTextLine);
-  console.log('Current Position: ', currentPosition);
-  totalZeroClicks += clickOccurred;
+  updatePosition(gameTextLine);
+  console.log('Current Position: ', dial.position);
 }
 
 function updatePosition(movementTextLine) {
   const direction = movementTextLine[0];
   const amount = parseInt(movementTextLine.slice(1));
-  if (amount > 99) {
-    console.debug('Amount greater than 99:', amount);
+  for (let i = 0; i < amount; i++) {
+    if (direction === 'L') {
+      if (dial.moveLeft()) {
+        totalClicks += 1;
+      }
+    }
+    if (direction === 'R') {
+      if (dial.moveRight()) {
+        totalClicks += 1;
+      }
+    }
   }
-  let clicks = 0;
-  let newPosition = currentPosition;
-  
-  if (direction === 'L') {
-    newPosition = currentPosition - amount
-    clicks = Math.floor(newPosition / -100)
-    if (newPosition < 0) newPosition = newPosition % 100 + 100;
-  } else {
-    newPosition = currentPosition + amount;
-    clicks = Math.floor(newPosition / 100)
-    if (newPosition > 99) newPosition = newPosition % 100;
-  }
-
-  return [newPosition, clicks];
 }
 
-parseInputFile('2025/1/input.txt', parseGame, line => console.log('Total zero positions: ', totalZeroClicks))
+parseInputFile('2025/1/input.txt', parseGame, line => console.log('Total zero positions: ', totalClicks))
